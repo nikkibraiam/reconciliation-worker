@@ -1,0 +1,20 @@
+[project]
+name = "reconciliation-worker"
+version = "1.0.0"
+description = "Reconciles internal transfers against provider settlement reports: idempotent runs, leased jobs, guarded auto-fixes and a discrepancy lifecycle on PostgreSQL."
+requires-python = ">=3.11"
+dependencies = ["psycopg[binary]>=3.2"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.3", "ruff>=0.6"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 120
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
