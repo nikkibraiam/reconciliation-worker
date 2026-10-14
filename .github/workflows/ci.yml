@@ -19,7 +19,7 @@ jobs:
           --health-cmd pg_isready --health-interval 5s --health-timeout 5s --health-retries 10
     env:
       TEST_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/recon_test
-      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/recon_test
+      DATABASE_URL: postgresql://postgres:postgres@localhost:5432/recon_demo
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -32,7 +32,8 @@ jobs:
       - run: pytest -v
       - name: Example run
         run: |
-          python -m recon report
+          psql postgresql://postgres:postgres@localhost:5432/postgres -c 'CREATE DATABASE recon_demo'
+          python -m recon report > /dev/null
           psql "$DATABASE_URL" -f examples/seed.sql
           python -m recon run --provider bank --statement examples/statement.csv --from 2026-10-01 --to 2026-10-02
           python -m recon report
